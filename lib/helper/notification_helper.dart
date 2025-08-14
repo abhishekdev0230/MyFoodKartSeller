@@ -184,19 +184,20 @@ class NotificationHelper {
       String? image;
       NotificationBodyModel notificationBody = convertNotification(message.data);
 
-      title = message.data['title'];
-      body = message.data['body'];
+      title = message.data['title'] ?? message.notification?.title ?? '';
+      body = message.data['body'] ?? message.notification?.body ?? '';
+
       image = (message.data['image'] != null && message.data['image'].isNotEmpty) ? message.data['image'].startsWith('http') ? message.data['image']
-        : '${AppConstants.baseUrl}/storage/app/public/notification/${message.data['image']}' : null;
+          : '${AppConstants.baseUrl}/storage/app/public/notification/${message.data['image']}' : null;
 
       if(image != null && image.isNotEmpty) {
         try{
           await showBigPictureNotificationHiddenLargeIcon(title, body, notificationBody, image, fln);
         }catch(e) {
-          await showBigTextNotification(title, body.toString(), notificationBody, fln);
+          await showBigTextNotification(title, body!, notificationBody, fln);
         }
       }else {
-        await showBigTextNotification(title, body.toString(), notificationBody, fln);
+        await showBigTextNotification(title, body!, notificationBody, fln);
       }
     }
   }
@@ -266,11 +267,11 @@ class NotificationHelper {
       case 'product_approve':
         return NotificationBodyModel(notificationType: NotificationType.product_approve);
       case 'product_rejected':
-      return NotificationBodyModel(notificationType: NotificationType.product_rejected);
+        return NotificationBodyModel(notificationType: NotificationType.product_rejected);
       case 'campaign':
         return NotificationBodyModel(notificationType: NotificationType.campaign, campaignId: int.tryParse(data['data_id']));
       case 'subscription':
-      return NotificationBodyModel(notificationType: NotificationType.subscription);
+        return NotificationBodyModel(notificationType: NotificationType.subscription);
       case 'new_order':
       case 'New order placed':
       case 'order_status':

@@ -247,30 +247,56 @@ class _HomeScreenState extends State<HomeScreen> {
                           profileController.profileModel != null ? Transform.scale(
                             scale: 0.8,
                             child: CupertinoSwitch(
-                              value: !profileController.profileModel!.stores![0].active!,
+                              value: profileController.profileModel!.stores![0].active!,
                               activeTrackColor: Theme.of(context).primaryColor,
                               inactiveTrackColor: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                               onChanged: (bool isActive) {
-                                bool? showRestaurantText = Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText;
-                                isEnableTemporarilyClosed ? Get.dialog(ConfirmationDialogWidget(
-                                  icon: Images.warning,
-                                  isOnNoPressedShow: false,
-                                  onYesButtonText: 'ok'.tr,
-                                  description: showRestaurantText! ? 'you_can_not_close_the_store_because_you_already_have_running_orders'.tr : 'you_can_not_close_the_store_because_you_already_have_running_orders'.tr,
-                                  onYesPressed: () {
-                                    Get.back();
-                                  },
-                                )) : Get.dialog(ConfirmationDialogWidget(
-                                  icon: Images.warning,
-                                  description: isActive ? showRestaurantText! ? 'are_you_sure_to_close_restaurant'.tr : 'are_you_sure_to_close_store'.tr
-                                      : showRestaurantText! ? 'are_you_sure_to_open_restaurant'.tr : 'are_you_sure_to_open_store'.tr,
-                                  onYesPressed: () {
-                                    Get.back();
-                                    Get.find<AuthController>().toggleStoreClosedStatus();
-                                  },
-                                ));
+                                if (isActive) {
+                                  print("on.................");
+                                } else {
+                                  print("off.............");
+                                }
+                                bool? showRestaurantText = Get.find<SplashController>()
+                                    .configModel!
+                                    .moduleConfig!
+                                    .module!
+                                    .showRestaurantText;
+
+                                isEnableTemporarilyClosed
+                                    ? Get.dialog(
+                                  ConfirmationDialogWidget(
+                                    icon: Images.warning,
+                                    isOnNoPressedShow: false,
+                                    onYesButtonText: 'ok'.tr,
+                                    description: showRestaurantText!
+                                        ? 'you_can_not_close_the_store_because_you_already_have_running_orders'
+                                        .tr
+                                        : 'you_can_not_close_the_store_because_you_already_have_running_orders'
+                                        .tr,
+                                    onYesPressed: () {
+                                      Get.back();
+                                    },
+                                  ),
+                                )
+                                    : Get.dialog(
+                                  ConfirmationDialogWidget(
+                                    icon: Images.warning,
+                                    description: !isActive
+                                        ? showRestaurantText!
+                                        ? 'are_you_sure_to_close_restaurant'.tr
+                                        : 'are_you_sure_to_close_store'.tr
+                                        : showRestaurantText!
+                                        ? 'are_you_sure_to_open_restaurant'.tr
+                                        : 'are_you_sure_to_open_store'.tr,
+                                    onYesPressed: () {
+                                      Get.back();
+                                      Get.find<AuthController>().toggleStoreClosedStatus();
+                                    },
+                                  ),
+                                );
                               },
                             ),
+
                           ) : Shimmer(duration: const Duration(seconds: 2), child: Container(height: 30, width: 50, color: Colors.grey[300])),
                         ]),
                       ) : const SizedBox(),
