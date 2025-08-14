@@ -258,7 +258,7 @@
   "unavailable": "Unavailable",
   "item_status_updated_successfully": "Item status updated successfully",
   "next": "Next",
-  "restaurant_temporarily_closed": "Restaurant Temporarily Closed",
+  "restaurant_temporarily_closed": "Restaurant On / Off",
   "store_temporarily_closed": "Store Temporarily Closed",
   "are_you_sure_to_open_restaurant": "Are you sure want to change the active status to open for this restaurant?",
   "are_you_sure_to_open_store": "Are you sure want to change the active status to open for this store?",
