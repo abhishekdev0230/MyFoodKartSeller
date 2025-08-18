@@ -468,7 +468,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           return OrderShimmerWidget(isEnabled: orderController.runningOrders == null);
                         },
+
                       ),
+                      SizedBox(height: 20,)
                     ]),
                   ),
                 ),
