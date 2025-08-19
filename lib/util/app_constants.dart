@@ -3,7 +3,7 @@ import 'package:sixam_mart_store/util/images.dart';
 
 class AppConstants {
   static const String appName = 'MyFoodKart Seller';
-  static const double appVersion = 3.3; ///Flutter SDK: 3.32.8
+  static const double appVersion = 2.0;
 
   static const String fontFamily = 'Roboto';
   static const double limitOfPickedVideoSizeInMB = 50;

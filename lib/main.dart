@@ -51,6 +51,11 @@ Future<void> main() async {
     );
   }else {
     await Firebase.initializeApp();
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   NotificationBodyModel? body;

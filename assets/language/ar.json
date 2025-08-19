@@ -113,6 +113,7 @@
   "transaction": "عملية",
   "restaurant": "مطعم",
   "store": "محل",
+  "confirm_order": "تأكيد الطلب",
   "bank_info": "معلومات البنك",
   "for_demo_purpose": "لأغراض العرض التوضيحي، يرجى استخدام 1234 كرمز لمرة واحدة (OTP).",
   "edit_profile": "تحرير الملف الشخصي",

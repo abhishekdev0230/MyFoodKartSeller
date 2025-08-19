@@ -1778,27 +1778,69 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                               )),
                                             ]),
                                           )
-                                        : Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: Dimensions
-                                                    .paddingSizeSmall),
-                                            child: ((controllerOrderModel
-                                                                .orderStatus ==
-                                                            'confirmed' ||
-                                                        (controllerOrderModel
-                                                                    .orderStatus ==
-                                                                'accepted' &&
-                                                            controllerOrderModel
-                                                                    .confirmed !=
-                                                                null)) &&
-                                                    Get.find<SplashController>()
-                                                        .configModel!
-                                                        .moduleConfig!
-                                                        .module!
-                                                        .showRestaurantText!)
+                                        : Padding(padding: const EdgeInsets.symmetric(
+                                                horizontal: Dimensions.paddingSizeSmall),
+                                            child: (((controllerOrderModel.orderStatus == 'pending')
+                                                || (controllerOrderModel.orderStatus == 'confirmed')
+                                                || (controllerOrderModel.orderStatus == 'accepted' && controllerOrderModel.confirmed != null))
+                                                && Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!)
+
                                                 ? Row(
                                                     children: [
                                                       Expanded(
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            debugPrint("confirmOrder.............");
+
+                                                            if (controllerOrderModel.orderStatus == 'pending' &&
+                                                                (controllerOrderModel.orderType == 'take_away' || restConfModel || selfDelivery)) {
+                                                              Get.dialog(
+                                                                ConfirmationDialogWidget(
+                                                                  icon: Images.warning,
+                                                                  title: 'are_you_sure_to_confirm'.tr,
+                                                                  description: 'you_want_to_confirm_this_order'.tr,
+                                                                  onYesPressed: () {
+                                                                    orderController.updateOrderStatus(
+                                                                        widget.orderId,
+                                                                        AppConstants.confirmed, back: true);
+                                                                  },
+                                                                  onNoPressed: () {
+                                                                    if (cancelPermission!) {
+                                                                      orderController.updateOrderStatus(
+                                                                          widget.orderId,
+                                                                          AppConstants.canceled,
+                                                                          back: true);
+                                                                    } else {
+                                                                      Get.back();
+                                                                    }
+                                                                  },
+                                                                ),
+                                                                barrierDismissible: false,
+                                                              );
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            padding: EdgeInsets.all(5),
+                                                            alignment: Alignment.center,
+                                                            decoration: BoxDecoration(
+                                                              border: Border.all(color: Colors.black),
+                                                              borderRadius: BorderRadius.circular(10),
+                                                              color: Colors.white,
+                                                            ),
+                                                            height: 45,
+                                                            child: Text(
+                                                              "confirm_order".tr,
+                                                              style: robotoMedium.copyWith(
+                                                                fontSize: Dimensions.fontSizeDefault,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),   Expanded(
                                                         child: GestureDetector(
                                                           onTap: () {
                                                             debugPrint(
@@ -1888,7 +1930,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                               color:
                                                                   Colors.white,
                                                             ),
-                                                            height: 40,
+                                                            height: 45,
                                                             child: Text(
                                                               "start_cooking"
                                                                   .tr,
@@ -1920,8 +1962,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                           },
                                                           child: Container(
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    5),
+                                                                EdgeInsets.symmetric(horizontal: 5,vertical: 2),
                                                             alignment: Alignment
                                                                 .center,
                                                             decoration:
@@ -1936,7 +1977,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                               color:
                                                                   Colors.white,
                                                             ),
-                                                            height: 40,
+                                                            height: 45,
                                                             child: Text(
                                                               "ready_for_handover"
                                                                   .tr,
@@ -1954,14 +1995,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen>
                                                   )
                                                 : SliderButton(
                                                     action: () {
-                                                      if (controllerOrderModel
-                                                                  .orderStatus ==
-                                                              'pending' &&
-                                                          (controllerOrderModel
-                                                                      .orderType ==
-                                                                  'take_away' ||
-                                                              restConfModel ||
-                                                              selfDelivery)) {
+                                                      if (controllerOrderModel.orderStatus == 'pending' &&
+                                                          (controllerOrderModel.orderType == 'take_away' || restConfModel || selfDelivery)) {
                                                         Get.dialog(
                                                             ConfirmationDialogWidget(
                                                               icon: Images
